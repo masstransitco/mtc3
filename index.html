@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fleet Management Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Link to the CSS file -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Import Map -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/",
+      "@lumaai/luma-web": "https://unpkg.com/@lumaai/luma-web@0.2.0/dist/library/luma-web.module.js"
+    }
+  }
+  </script>
+
+  <!-- Sketchfab Viewer API -->
+  <script src="https://static.sketchfab.com/api/sketchfab-viewer-1.0.0.js"></script>
+
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+  <!-- Firebase Auth SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+  
+</head>
+<body>
+  <!-- Header with Toggle Switch -->
+  <header>
+    <div class="toggle-container">
+      <div class="toggle-base"></div>
+      <button class="toggle-button active" id="toggleCars">Cars</button>
+      <button class="toggle-button" id="toggleStations">Stations</button>
+    </div>
+  </header>
+
+  <!-- Map Container -->
+  <div class="map-container">
+    <!-- Locate Button -->
+    <button class="locate-button" id="locateButton" title="Center on Me">
+      <img src="https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png" alt="Locate">
+    </button>
+    <div id="map"></div>
+  </div>
+
+  <!-- Sketchfab Embed Wrapper -->
+  <div class="sketchfab-embed-wrapper" id="sketchfabContainer">
+    <iframe src="https://sketchfab.com/models/32182bd458674ea6969f8890ada5883f/embed?autostart=1&ui_watermark=0&ui_infos=0&ui_stop=0&ui_annotations=0" title="3D Model"></iframe>
+  </div>
+
+  <!-- Selected Info Container -->
+  <div class="selected-info-container" id="selectedInfoContainer">
+    <h2>Selected Vehicle Information</h2>
+    <p>Details about the selected vehicle will be displayed here.</p>
+  </div>
+
+  <!-- Details Section -->
+  <div class="details-section">
+    <div class="details-container">
+      <div class="items-list">
+        <ul id="vehicleDetails">
+          <li>Select a vehicle to see details here...</li>
+        </ul>
+        <div class="route-info" id="routeInfo">
+          <span class="time" id="walkingTime">0</span>
+          <span class="unit">mins</span>
+        </div>
+        <div class="route-details-toggle" id="routeToggle" style="display: none;">
+          <span id="toggleText">Route details</span>
+        </div>
+        <div class="button-group">
+          <button id="lockButton" class="lock-btn" disabled>Lock</button>
+          <button id="unlockButton" class="unlock-btn" disabled>Unlock</button>
+        </div>
+      </div>
+      <div class="right-container">
+        <button id="chooseDestinationButton" class="choose-destination-btn" disabled>Choose Destination</button>
+        <button id="payAsYouGoButton" class="pay-as-you-go-btn" disabled>Pay-As-You-Go</button>
+      </div>
+    </div>
+    <div class="last-location" id="lastLocation">
+      <strong>Last Known Location:</strong>
+      <div class="address">
+        <span class="english">Fetching address...</span>
+        <span class="chinese">獲取地址中...</span>
+      </div>
+    </div>
+    <div class="route-details" id="routeDetails">
+      <!-- Turn-by-turn directions will be populated here -->
+    </div>
+  </div>
+
+  <!-- Footer with Dropdown and Lock/Unlock Buttons -->
+  <footer>
+    <img src="logo.png" alt="Logo">
+    <div class="dropdown-container">
+      <select id="vehicleSelector">
+        <option value="">-- Select a Vehicle --</option>
+      </select>
+    </div>
+    <div class="lock-buttons">
+      <button class="lock-btn" id="lockButtonFooter">Lock</button>
+      <button class="unlock-btn" id="unlockButtonFooter">Unlock</button>
+    </div>
+  </footer>
+
+  <!-- QR Code Scanner Overlay -->
+  <div class="qr-scanner-overlay" id="qrScannerOverlay">
+    <div class="qr-scanner-container">
+      <button class="close-btn" id="closeQrScanner">&times;</button>
+      <div id="qr-reader" style="width:100%"></div>
+    </div>
+  </div>
+
+  <!-- Include the JavaScript file -->
+  <script src="script.js"></script>
+
+  <!-- Include html5-qrcode library for QR code scanning -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <!-- Load the Google Maps API just before closing body tag -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&language=zh-HK&callback=initMap"
+    async
+    defer
+  ></script>
+
+</body>
+</html>
